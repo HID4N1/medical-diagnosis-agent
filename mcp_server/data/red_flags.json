@@ -1,0 +1,26 @@
+{
+  "difficulty breathing": {
+    "severity": "high",
+    "red_flag": true
+  },
+  "chest pain": {
+    "severity": "high",
+    "red_flag": true
+  },
+  "loss of consciousness": {
+    "severity": "critical",
+    "red_flag": true
+  },
+  "high fever": {
+    "severity": "medium",
+    "red_flag": false
+  },
+  "fatigue": {
+    "severity": "low",
+    "red_flag": false
+  },
+  "headache": {
+    "severity": "low",
+    "red_flag": false
+  }
+}
