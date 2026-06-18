@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 from mcp.server.fastmcp import FastMCP
@@ -20,9 +21,9 @@ SEVERITY_SCORES = {
 
 
 mcp = FastMCP(
-    name="medical-mcp-server",
-    host="0.0.0.0",
-    port=23000,
+    name=os.getenv("MCP_SERVER_NAME", "medical-mcp-server"),
+    host=os.getenv("MCP_HOST", "0.0.0.0"),
+    port=int(os.getenv("MCP_PORT", "23000")),
 )
 
 

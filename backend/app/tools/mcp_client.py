@@ -1,4 +1,5 @@
 import json
+import os
 
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
@@ -16,7 +17,7 @@ async def get_medical_tools():
         {
             "medical_server": {
                 "transport": "streamable_http",
-                "url": "http://localhost:23000/mcp",
+                "url": os.getenv("MCP_SERVER_URL", "http://localhost:23000/mcp"),
             }
         }
     )

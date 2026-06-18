@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AppShell from '../components/AppShell'
 import Loader from '../components/Loader'
 import ProgressStepper from '../components/ProgressStepper'
 import { useConsultation } from '../context/useConsultation'
@@ -35,34 +36,49 @@ export default function StartConsultation() {
   }
 
   return (
-    <main className="app-shell">
+    <AppShell>
       <ProgressStepper currentStep={1} />
 
-      <section className="page-heading">
-        <h1>Système Multi-Agents d’Orientation Clinique Préliminaire</h1>
-        <p>Projet académique basé sur LangGraph, FastAPI et MCP</p>
+      <section className="hero-card card">
+        <div className="hero-copy">
+          <h1>Système d’orientation clinique</h1>
+          <p>
+            Workflow multi-agents pour la collecte des informations patient,
+            la synthèse préliminaire et la revue médicale.
+          </p>
+
+          <div className="meta-list" aria-label="Technologies principales">
+            <span>LangGraph</span>
+            <span>FastAPI</span>
+            <span>MCP</span>
+            <span>Human-in-the-Loop</span>
+          </div>
+
+          <p className="disclaimer">
+            Projet académique — ne fournit pas de diagnostic définitif.
+          </p>
+        </div>
+
+        <form className="form-panel" onSubmit={handleSubmit}>
+          <h2>Nouveau cas patient</h2>
+          <label htmlFor="patient-case">Description initiale du cas</label>
+          <textarea
+            id="patient-case"
+            placeholder="Patient avec toux légère, fatigue et fièvre modérée depuis deux jours."
+            value={caseText}
+            onChange={(event) => setCaseText(event.target.value)}
+            rows={9}
+          />
+          {error && <p className="error-message">{error}</p>}
+          {loading ? (
+            <Loader />
+          ) : (
+            <button type="submit" disabled={!caseText.trim()}>
+              Démarrer la consultation
+            </button>
+          )}
+        </form>
       </section>
-
-      <p className="disclaimer">Ce système ne remplace pas une consultation médicale.</p>
-
-      <form className="card form-card" onSubmit={handleSubmit}>
-        <label htmlFor="patient-case">Cas initial du patient</label>
-        <textarea
-          id="patient-case"
-          placeholder="Décrivez le cas initial du patient…"
-          value={caseText}
-          onChange={(event) => setCaseText(event.target.value)}
-          rows={8}
-        />
-        {error && <p className="error-message">{error}</p>}
-        {loading ? (
-          <Loader />
-        ) : (
-          <button type="submit" disabled={!caseText.trim()}>
-            Démarrer la consultation
-          </button>
-        )}
-      </form>
-    </main>
+    </AppShell>
   )
 }

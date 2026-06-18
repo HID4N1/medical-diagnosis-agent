@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import AppShell from '../components/AppShell'
 import Loader from '../components/Loader'
 import ProgressStepper from '../components/ProgressStepper'
 import QuestionCard from '../components/QuestionCard'
@@ -48,35 +49,56 @@ export default function PatientQuestions() {
   const questionNumber = Math.min(patientAnswers.length + 1, 5)
 
   return (
-    <main className="app-shell">
+    <AppShell>
       <ProgressStepper currentStep={2} />
-      <section className="page-heading compact">
-        <h1>Questions Patient</h1>
-        <p>Orientation clinique préliminaire : {questionNumber} / 5</p>
+      <section className="page-heading">
+        <h1>Entretien patient</h1>
+        <p>
+          Le système collecte cinq réponses pour enrichir l’état partagé du
+          graphe.
+        </p>
       </section>
 
-      <p className="disclaimer">Ce système ne remplace pas une consultation médicale.</p>
+      <section className="content-grid">
+        <div className="workflow-column">
+          <QuestionCard question={currentQuestion} questionNumber={questionNumber} />
 
-      <QuestionCard question={currentQuestion} questionNumber={questionNumber} />
+          <form className="card form-card" onSubmit={handleSubmit}>
+            <div className="form-title-row">
+              <label htmlFor="patient-answer">Réponse du patient</label>
+            </div>
+            <textarea
+              id="patient-answer"
+              placeholder="Réponse du patient…"
+              value={answer}
+              onChange={(event) => setAnswer(event.target.value)}
+              rows={6}
+            />
+            {error && <p className="error-message">{error}</p>}
+            {loading ? (
+              <Loader />
+            ) : (
+              <button type="submit" disabled={!answer.trim()}>
+                Enregistrer la réponse
+              </button>
+            )}
+          </form>
+        </div>
 
-      <form className="card form-card" onSubmit={handleSubmit}>
-        <label htmlFor="patient-answer">Réponse du patient</label>
-        <textarea
-          id="patient-answer"
-          placeholder="Réponse du patient…"
-          value={answer}
-          onChange={(event) => setAnswer(event.target.value)}
-          rows={6}
-        />
-        {error && <p className="error-message">{error}</p>}
-        {loading ? (
-          <Loader />
-        ) : (
-          <button type="submit" disabled={!answer.trim()}>
-            Envoyer la réponse
-          </button>
-        )}
-      </form>
-    </main>
+        <aside className="card info-card">
+          <h2>État du workflow</h2>
+          <dl className="workflow-state">
+            <div>
+              <dt>Réponses collectées</dt>
+              <dd>{patientAnswers.length}/5</dd>
+            </div>
+            <div>
+              <dt>Étape actuelle</dt>
+              <dd>Diagnostic Agent</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+    </AppShell>
   )
 }

@@ -1,8 +1,8 @@
 const steps = [
-  'Cas patient',
+  'Cas',
   'Questions',
-  'Revue médecin',
-  'Rapport final',
+  'Revue',
+  'Rapport',
 ]
 
 export default function ProgressStepper({ currentStep = 1 }) {
@@ -18,7 +18,9 @@ export default function ProgressStepper({ currentStep = 1 }) {
             className={`step ${stateClass} ${activeClass}`.trim()}
             key={step}
           >
-            <span className="step-number">{stepNumber}</span>
+            <span className="step-number" aria-hidden="true">
+              {stepNumber < currentStep ? '✓' : stepNumber}
+            </span>
             <span>{step}</span>
           </li>
         )
